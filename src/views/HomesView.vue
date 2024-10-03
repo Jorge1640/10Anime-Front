@@ -10,7 +10,7 @@
         <FilterSection :filters="filters" @apply-filters="applyFiltersAndRedirect" @reset-filters="resetFilters" />
       </div>
     </section>
-    <AlphabetFooter />
+    <AlphabetFooter @letter-clicked="redirectToAzPage" /> <!-- Escuchar el evento -->
   </div>
 </template>
 
@@ -111,6 +111,12 @@ export default {
     applyFiltersAndRedirect(selectedFilters) {
       this.applyFilters(selectedFilters);
       this.$router.push({ name: 'AnimeListPage', query: this.selectedFilters });
+    },
+    redirectToAzPage(letter) {
+      this.$router.push({ name: 'AzPage', query: { letter } }); // Redirige a la vista 'AzPage'
+    },
+    goToLetter(letter) {
+      this.$emit('letter-clicked', letter); // Emitir el evento
     }
   }
 }

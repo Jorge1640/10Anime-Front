@@ -1,45 +1,41 @@
 <template>
-  <footer class="alphabet-footer">
-    <div class="alphabet-buttons">
-      <button v-for="letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" :key="letter" class="alphabet-btn">
-        {{ letter }}
-      </button>
-    </div>
-  </footer>
+  <div class="alphabet-footer">
+    <span v-for="letter in alphabet" :key="letter" @click="goToLetter(letter)">
+      {{ letter }}
+    </span>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'AlphabetFooter'
+  name: 'AlphabetFooter',
+  data() {
+    return {
+      alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+    };
+  },
+  methods: {
+    goToLetter(letter) {
+      this.$emit('letter-clicked', letter); // Emitir el evento al hacer clic
+    }
+  }
 }
 </script>
 
 <style scoped>
 .alphabet-footer {
-  background-color: #666;
-  padding: 20px 0;
-  margin-top: 30px;
-}
-
-.alphabet-buttons {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  margin-top: 20px;
 }
 
-.alphabet-btn {
-  background-color: #4e2a84;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 16px;
+.alphabet-footer span {
+  margin: 0 5px;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  color: #42b983;
 }
 
-.alphabet-btn:hover {
-  background-color: #3a1f63;
+.alphabet-footer span:hover {
+  color: #3a9d70;
 }
 </style>
