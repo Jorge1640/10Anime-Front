@@ -1,19 +1,26 @@
 <template>
   <div class="anime-list-page">
-    <FilterSection :filters="filters" @apply-filters="applyFilters" @reset-filters="resetFilters" />
-    <AnimeList :animes="filteredAnimes" />
+    <SideBar @toggle-sidebar="toggleSidebar" />
+    <div class="conten1">
+      <AnimeList :animes="filteredAnimes" />
+    </div>
+    <div class="content2">
+      <FilterSection :filters="filters" @apply-filters="applyFilters" @reset-filters="resetFilters" />
+    </div>
   </div>
 </template>
 
 <script>
 import FilterSection from '@/components/FilterSection.vue';
 import AnimeList from '@/components/AnimeList.vue';
+import SideBar from '@/components/SideBar.vue';
 
 export default {
   name: 'AnimeListPage',
   components: {
     FilterSection,
-    AnimeList
+    AnimeList,
+    SideBar
   },
   data() {
     return {
@@ -21,12 +28,11 @@ export default {
         { id: 'genre', label: 'Género', options: [
           { value: 'action', text: 'Acción' },
           { value: 'comedy', text: 'Comedia' },
-          // Añade más géneros aquí
+          { value: 'adventure', text: 'Aventura' }
         ]},
         { id: 'country', label: 'País', options: [
           { value: 'japan', text: 'Japón' },
-          { value: 'korea', text: 'Corea' },
-          // Añade más países aquí
+          { value: 'korea', text: 'Corea' }
         ]},
         { id: 'season', label: 'Temporada', options: [
           { value: 'spring', text: 'Primavera' },
@@ -36,8 +42,7 @@ export default {
         ]},
         { id: 'year', label: 'Año', options: [
           { value: '2023', text: '2023' },
-          { value: '2022', text: '2022' },
-          // Añade más años aquí
+          { value: '2022', text: '2022' }
         ]},
         { id: 'type', label: 'Tipo', options: [
           { value: 'tv', text: 'TV' },
@@ -58,11 +63,9 @@ export default {
         ]}
       ],
       allAnimes: [
-        { id: 1, title: "Naruto", image: "path-to-image-1.jpg", genre: "Acción" },
-        { id: 2, title: "Bleach", image: "path-to-image-2.jpg", genre: "Acción" },
-        { id: 3, title: "One Piece", image: "path-to-image-3.jpg", genre: "Aventura" },
-        { id: 4, title: "Attack on Titan", image: "path-to-image-4.jpg", genre: "Acción" },
-        { id: 5, title: "My Hero Academia", image: "path-to-image-5.jpg", genre: "Acción" }
+        { id: 1, title: "Naruto", image: "path-to-image-1.jpg", genre: "action", country: "japan", season: "spring", year: "2023", type: "tv", status: "airing", language: "japanese" },
+        { id: 2, title: "Bleach", image: "path-to-image-2.jpg", genre: "action", country: "japan", season: "summer", year: "2022", type: "tv", status: "completed", language: "japanese" },
+        { id: 3, title: "One Piece", image: "path-to-image-3.jpg", genre: "adventure", country: "japan", season: "fall", year: "2023", type: "tv", status: "airing", language: "japanese" }
       ],
       selectedFilters: {},
       filteredAnimes: []
@@ -75,18 +78,19 @@ export default {
     },
     resetFilters() {
       this.selectedFilters = {};
-      this.filteredAnimes = this.allAnimes;
+      this.filteredAnimes = this.allAnimes; // Restablece a todos los animes
     },
     filterAnimes() {
       this.filteredAnimes = this.allAnimes.filter(anime => {
         return Object.keys(this.selectedFilters).every(key => {
-          return this.selectedFilters[key] === '' || anime[key] === this.selectedFilters[key];
+          const filterValue = this.selectedFilters[key];
+          return filterValue === '' || filterValue === undefined || anime[key] === filterValue;
         });
       });
     }
   },
   mounted() {
-    this.filteredAnimes = this.allAnimes;
+    this.filteredAnimes = this.allAnimes; // Inicializa la lista filtrada
   }
 }
 </script>
@@ -94,15 +98,28 @@ export default {
 <style scoped>
 .anime-list-page {
   display: flex;
-  flex-direction: column;
   padding: 20px;
+  justify-content: space-between; /* Distribuye espacio entre los elementos */
 }
 
+.content2 {
+  width: 300px; /* Define un ancho fijo para la sección de filtros */
+  display: flex;
+  flex-direction: column;
+}
+
+.conten1 {
+  flex: 1; /* La lista de animes ocupa el espacio restante */
+  padding: 50px;
+}
+
+/* Media Queries para Responsividad */
 @media (max-width: 768px) {
   .anime-list-page {
-    padding: 10px;
+    flex-direction: column;
+  }
+  .conten1 {
+    padding: 20px;
   }
 }
 </style>
-
-

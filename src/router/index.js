@@ -1,32 +1,39 @@
+// router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import HomesView from '@/views/HomesView.vue';
 import AzPage from '@/views/AzPage.vue';
-import AnimeListPage from '@/views/AnimeListPage.vue'; // Asumiendo que tienes esta ruta
+import AnimeListPage from '@/views/AnimeListPage.vue';
+import LoginPage from '../views/LoginPage.vue'; // Asegúrate de que la ruta sea correcta
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: HomesView // Ruta principal que carga HomesView
+    component: HomesView
   },
   {
     path: '/az',
     name: 'AzPage',
-    component: AzPage, // Ruta para AzPage
+    component: AzPage,
     props: route => ({ letter: route.query.letter }) // Permite pasar el query param como prop
   },
   {
     path: '/anime-list',
     name: 'AnimeListPage',
-    component: AnimeListPage, // Ruta para AnimeListPage
-    props: route => ({ ...route.query }) // Permite pasar todos los query params como props
+    component: AnimeListPage,
+    props: route => ({ ...route.query })
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginPage
   },
   // Otras rutas...
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL), // Configuración del historial
-  routes // Rutas definidas
+  history: createWebHistory(process.env.BASE_URL),
+  routes
 });
 
 export default router;

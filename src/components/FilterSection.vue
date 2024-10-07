@@ -44,62 +44,68 @@ export default {
 <style scoped>
 .filter-section {
   flex: 1;
-  padding-right: 20px;
+  padding: 10px; /* Reducir el padding para hacerla más pequeña */
   display: flex;
   flex-direction: column;
+  background-color: #333; /* Cambiar a un fondo gris oscuro */
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .filter-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 15px; /* Reducir el espacio entre los grupos de filtros */
+  margin-bottom: 15px; /* Reducir el margen inferior */
 }
 
 .filter-group {
-  background-color: #333;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  background-color: #444; /* Cambiar a un fondo gris más claro para los grupos de filtros */
+  padding: 10px; /* Reducir el padding interno */
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #555; /* Cambiar el color del borde a un gris más oscuro */
 }
 
 .filter-group label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #fff;
+  margin-bottom: 6px; /* Reducir el margen inferior */
+  font-weight: 600;
+  color: #fff; /* Cambiar el color del texto a blanco */
+  font-size: 14px;
 }
 
 .filter-group select {
   width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #555;
-  background-color: #444;
-  color: #fff;
-  transition: border-color 0.3s;
+  padding: 8px; /* Reducir el padding interno */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #555; /* Cambiar el fondo del select a un gris oscuro */
+  color: #fff; /* Cambiar el color del texto a blanco */
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .filter-group select:focus {
   outline: none;
   border-color: #42b983;
-  box-shadow: 0 0 10px rgba(66, 185, 131, 0.5);
+  box-shadow: 0 0 8px rgba(66, 185, 131, 0.4);
 }
 
 .button-group {
   display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
+  justify-content: space-between;
+  margin-top: 15px; /* Reducir el margen superior */
 }
 
 .search-btn, .reset-btn {
-  padding: 10px 20px;
+  padding: 10px 20px; /* Reducir el padding de los botones */
   font-size: 16px;
   cursor: pointer;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   transition: background-color 0.3s ease;
+  width: 45%; /* Ajustar el ancho de los botones para que se ajusten bien */
+  text-align: center;
 }
 
 .search-btn {
@@ -108,7 +114,7 @@ export default {
 }
 
 .search-btn:hover {
-  background-color: #3a9d70;
+  background-color: #36a174;
 }
 
 .reset-btn {
@@ -117,6 +123,6 @@ export default {
 }
 
 .reset-btn:hover {
-  background-color: #d32f2f;
+  background-color: #e53935;
 }
 </style>
