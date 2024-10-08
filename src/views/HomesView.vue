@@ -3,19 +3,34 @@
     <div class="home">
       <SideBar @toggle-sidebar="toggleSidebar"/>
       <div class="main-content">
-        <CarrouseleComponent />
+        <section class="section carousel-section">
+          <h2 class="section-title">Carrusel de Animes</h2>
+          <CarrouseleComponent />
+        </section>
         <div class="content-and-filter-container">
-          <div class="anime-list-container">
-            <AnimeList :animes="allAnimes" />
-          </div>
-          <div class="filter-and-top-anime-container">
-            <div class="filter-section-container">
-              <FilterSection :filters="filters" @apply-filters="applyFiltersAndRedirect" @reset-filters="resetFilters" />
+          <section class="section anime-list-section">
+            <h2 class="section-title">Lista de Animes</h2>
+            <div class="anime-list-container">
+              <AnimeList :animes="allAnimes" />
             </div>
-            <TopAnime :topAnime="topAnime" />
+          </section>
+          <div class="filter-and-top-anime-container">
+            <section class="section filter-section">
+              <h2 class="section-title">Filtros</h2>
+              <div class="filter-section-container">
+                <FilterSection :filters="filters" @apply-filters="applyFiltersAndRedirect" @reset-filters="resetFilters" />
+              </div>
+            </section>
+            <section class="section top-anime-section">
+              <h2 class="section-title">Top Animes</h2>
+              <TopAnime :topAnime="topAnime" />
+            </section>
           </div>
         </div>
-        <AlphabetFooter @letter-clicked="redirectToAzPage" />
+        <section class="section alphabet-footer-section">
+          <h2 class="section-title">Búsqueda por Letra</h2>
+          <AlphabetFooter @letter-clicked="redirectToAzPage" />
+        </section>
       </div>
     </div>
   </div>
@@ -143,31 +158,42 @@ export default {
 
 .home {
   display: flex;
-  background: linear-gradient(to bottom, #000000 70%, #1a0033); /* Degradado de negro a un morado oscuro ocupando el 30% */
+  background: linear-gradient(to bottom, #000000 70%, #1a0033);
   padding: 20px;
   flex-grow: 1;
   transition: margin-left 0.3s ease;
 }
 
-
 .main-content {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+.section {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  color: #fff;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 10px;
 }
 
 .content-and-filter-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  gap: 20px;
 }
 
-.anime-list-container {
+.anime-list-section {
   flex: 3;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-right: 20px;
 }
 
 .filter-and-top-anime-container {
@@ -177,10 +203,10 @@ export default {
   gap: 20px;
 }
 
-.filter-section-container {
-  background-color: #333;
-  padding: 15px;
+.anime-list-container, .filter-section-container {
+  background-color: rgba(51, 51, 51, 0.5);
   border-radius: 5px;
+  padding: 15px;
 }
 
 /* Estilos para el Sidebar */
@@ -190,7 +216,7 @@ export default {
   left: 0;
   height: 100%;
   width: 120px;
-  background-color: #333;
+  background-color: #222;
   transition: width 0.3s ease;
 }
 

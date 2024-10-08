@@ -71,10 +71,10 @@ export default {
   align-items: center;
   min-height: 100vh;
   background-color: rgba(17, 24, 39, 1);
-  background-color: #000; /* Fondo negro para simular la imagen de fondo */
-  background-image: url('@/assets/fondo.jpeg'); /* Cambiado a fondo.jpeg en la ruta assets */
-  background-size: cover;
-  background-position: center;
+  background-image: url('@/assets/fondo.jpeg'); /* Imagen de fondo */
+  background-size: contain; /* Ajusta la imagen sin expandirla */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-position: center; /* Centra la imagen de fondo */
 }
 
 .form-container {

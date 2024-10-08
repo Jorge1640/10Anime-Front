@@ -67,30 +67,47 @@ export default {
         { id: 2, title: "Bleach", image: "path-to-image-2.jpg", genre: "action", country: "japan", season: "summer", year: "2022", type: "tv", status: "completed", language: "japanese" },
         { id: 3, title: "One Piece", image: "path-to-image-3.jpg", genre: "adventure", country: "japan", season: "fall", year: "2023", type: "tv", status: "airing", language: "japanese" }
       ],
-      selectedFilters: {},
-      filteredAnimes: []
+      selectedFilters: {} // Mantiene los filtros seleccionados
     };
   },
-  methods: {
-    applyFilters(selectedFilters) {
-      this.selectedFilters = selectedFilters;
-      this.filterAnimes();
-    },
-    resetFilters() {
-      this.selectedFilters = {};
-      this.filteredAnimes = this.allAnimes; // Restablece a todos los animes
-    },
-    filterAnimes() {
-      this.filteredAnimes = this.allAnimes.filter(anime => {
-        return Object.keys(this.selectedFilters).every(key => {
-          const filterValue = this.selectedFilters[key];
-          return filterValue === '' || filterValue === undefined || anime[key] === filterValue;
+  computed: {
+    filteredAnimes() {
+      return this.allAnimes.filter(anime => {
+        return Object.entries(this.selectedFilters).every(([key, value]) => {
+          if (value && value !== '') {
+            if (key === 'genre') {
+              return anime.genre.toLowerCase().includes(value.toLowerCase()); // Filtrado por género
+            }
+            return anime[key] === value; // Filtrado por otras propiedades
+          }
+          return true; // Si no hay valor, no filtra
         });
       });
     }
   },
+  methods: {
+    applyFilters(selectedFilters) {
+      this.selectedFilters = { ...selectedFilters }; // Actualiza los filtros seleccionados
+      console.log('Selected Filters:', this.selectedFilters); // Verifica los filtros seleccionados
+    },
+    resetFilters() {
+      this.selectedFilters = {}; // Restablece los filtros
+    },
+    applyFiltersAndRedirect(selectedFilters) {
+      this.applyFilters(selectedFilters);
+      this.$router.push({ 
+        name: 'AnimeListPage', 
+        query: Object.fromEntries(
+          Object.entries(this.selectedFilters).filter(([, v]) => v !== '') // Usar [, v] para ignorar la clave
+        )
+      });
+    },
+    toggleSidebar() {
+      // Implementa la lógica para mostrar/ocultar la barra lateral
+    }
+  },
   mounted() {
-    this.filteredAnimes = this.allAnimes; // Inicializa la lista filtrada
+    this.selectedFilters = {}; // Inicializa los filtros seleccionados
   }
 }
 </script>
@@ -99,21 +116,23 @@ export default {
 .anime-list-page {
   display: flex;
   padding: 20px;
-  justify-content: space-between; /* Distribuye espacio entre los elementos */
+  justify-content: space-between;
 }
 
 .content2 {
-  width: 300px; /* Define un ancho fijo para la sección de filtros */
+  width: 300px;
   display: flex;
   flex-direction: column;
+  background-color: rgba(28, 28, 30, 0.7); /* Ajusta la opacidad aquí (0.7 es más transparente que 0.8) */
+  border-radius: 10px; /* Añade bordes redondeados si lo deseas */
+  padding: 20px; /* Añade un poco de padding para que el contenido no esté pegado a los bordes */
 }
 
 .conten1 {
-  flex: 1; /* La lista de animes ocupa el espacio restante */
+  flex: 1;
   padding: 50px;
 }
 
-/* Media Queries para Responsividad */
 @media (max-width: 768px) {
   .anime-list-page {
     flex-direction: column;

@@ -1,21 +1,18 @@
 <template>
   <div class="anime-list">
     <div v-for="anime in animes" :key="anime.id" class="card">
-      <div class="card__front" :style="{ backgroundImage: `url(${anime.image})` }">
-        <h3 class="card__title">{{ anime.title }}</h3> <!-- Título en la parte frontal -->
-      </div>
-      <div class="card__content">
-        <p class="card__description">{{ anime.description }}</p>
-        <p class="card__release-date">Released: {{ anime.releaseDate }}</p>
-      </div>
-
-      <!-- Carta flotante que aparece al hacer hover -->
-      <div class="card__hover-details">
-        <h3>{{ anime.title }}</h3>
-        <p>Score: 8.18</p>
-        <p>Date Aired: {{ anime.releaseDate }}</p>
-        <p>Genres: Adventure, Mystery</p>
-        <button class="play-button" @click="handleButtonClick(anime)">Watch Now!</button>
+      <div class="card__inner">
+        <div class="card__front" :style="{ backgroundImage: `url(${anime.image})` }">
+          <h3 class="card__title">{{ anime.title }}</h3>
+        </div>
+        <div class="card__back">
+          <div class="card__content">
+            <h3 class="card__title">{{ anime.title }}</h3>
+            <p class="card__description">{{ anime.description }}</p>
+            <p class="card__release-date">Released: {{ anime.releaseDate }}</p>
+            <button class="button" @click="handleButtonClick(anime)">Watch Now!</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -41,6 +38,7 @@ export default {
         { id: 7, title: 'Anime 7', description: 'Descripción del Anime 7', releaseDate: '2021-07-01', image: anim3 },
         { id: 8, title: 'Anime 8', description: 'Descripción del Anime 8', releaseDate: '2021-08-01', image: anim4 },
         { id: 9, title: 'Anime 9', description: 'Descripción del Anime 9', releaseDate: '2021-09-01', image: anim1 },
+       
       ]
     };
   },
@@ -56,143 +54,131 @@ export default {
 .anime-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center; /* Centra los elementos en la fila */
+  gap: 25px; /* Aumenta la separación entre las tarjetas */
+  justify-content: center;
 }
 
 .card {
-  position: relative;
-  width: 100%; 
-  max-width: 450px; /* Aumentar el ancho máximo a un tamaño intermedio */
-  height: 300px; /* Aumentar la altura a un tamaño intermedio */
-  background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+  width: 350px;
+  height: 450px;
+  perspective: 1000px;
 }
 
-.card:hover {
-  transform: scale(1.05); /* Ajustar el efecto de hover */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+.card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.card:hover .card__inner {
+  transform: rotateY(180deg);
+}
+
+.card__front, .card__back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
 }
 
 .card__front {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   background-size: cover;
   background-position: center;
   display: flex;
-  align-items: flex-end; /* Alinea el título al fondo */
-  justify-content: center; /* Centra el título horizontalmente */
-  color: white; /* Color del texto del título */
-  padding: 10px; /* Espaciado alrededor del título */
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 15px;
+  color: white;
 }
 
-.card__title {
-  margin: 0;
-  font-size: 20px; /* Ajustar el tamaño de fuente del título */
-  color: #fff; /* Color del título en la parte frontal */
-  font-weight: 700;
+.card__back {
+  background: linear-gradient(-45deg, #121212, #1c1c1c); /* Fondo oscuro, estilo anime */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: rotateY(180deg);
+  padding: 20px;
 }
 
 .card__content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
-
-.card__hover-details {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  text-align: center;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
-.card:hover .card__hover-details {
-  opacity: 1;
+.card__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
 }
 
 .card__description {
-  margin: 10px 0 0;
-  font-size: 14px; /* Ajustar el tamaño de fuente de la descripción */
-  color: #777;
+  font-size: 14px;
+  color: #ddd;
+  margin-top: 10px;
 }
 
 .card__release-date {
-  margin: 5px 0 0;
-  font-size: 12px; /* Ajustar el tamaño de fuente de la fecha */
-  color: #999;
+  font-size: 12px;
+  color: #bbb;
+  margin-top: 10px;
 }
 
-.play-button {
-  --glow-color: rgb(217, 176, 255);
-  --glow-spread-color: rgba(191, 123, 255, 0.781);
-  --enhanced-glow-color: rgb(231, 206, 255);
-  --btn-color: rgb(100, 61, 136);
-  border: .25em solid var(--glow-color);
-  padding: 1em 3em;
-  color: var(--glow-color);
-  font-size: 15px;
-  font-weight: bold;
-  background-color: var(--btn-color);
-  border-radius: 1em;
-  outline: none;
-  box-shadow: 0 0 1em .25em var(--glow-color),
-              0 0 4em 1em var(--glow-spread-color),
-              inset 0 0 .75em .25em var(--glow-color);
-  text-shadow: 0 0 .5em var(--glow-color);
+/* Botón animado */
+.button {
   position: relative;
-  transition: all 0.3s;
+  width: 120px;
+  height: 40px;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  color: white;
+  justify-content: center;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
 }
 
-.play-button:hover {
-  color: var(--btn-color);
-  background-color: var(--glow-color);
-  box-shadow: 0 0 1em .25em var(--glow-color),
-              0 0 4em 2em var(--glow-spread-color),
-              inset 0 0 .75em .25em var(--glow-color);
+.button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  left: -4px;
+  top: -1px;
+  margin: auto;
+  width: 128px;
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%);
+  z-index: -10;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.play-button:active {
-  box-shadow: 0 0 0.6em .25em var(--glow-color),
-              0 0 2.5em 2em var(--glow-spread-color),
-              inset 0 0 .5em .25em var(--glow-color);
+.button::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(-45deg, #fc00ff 0%, #00dbde 100%);
+  transform: translate3d(0, 0, 0) scale(0.95);
+  filter: blur(20px);
 }
 
-/* Media Queries para Responsividad */
-@media (max-width: 768px) {
-  .card {
-    max-width: 90%; /* Tarjetas ocupan el ancho completo en pantallas pequeñas */
-    height: 250px; /* Ajustar altura en pantallas pequeñas */
-  }
+.button:hover::after {
+  filter: blur(30px);
+}
 
-  .card__title {
-    font-size: 18px; /* Ajustar el tamaño de fuente del título */
-  }
+.button:hover::before {
+  transform: rotate(-180deg);
+}
 
-  .card__description {
-    font-size: 12px; /* Ajustar el tamaño de fuente de la descripción */
-  }
-
-  .card__release-date {
-    font-size: 10px; /* Ajustar el tamaño de fuente de la fecha */
-  }
+.button:active::before {
+  scale: 0.7;
 }
 </style>
