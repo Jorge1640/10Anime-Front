@@ -1,5 +1,6 @@
 <template>
   <div class="az-page">
+    <FeaturedAnimeCard />
     <div class="alphabet-bar">
       <button 
         v-for="letter in alphabet" 
@@ -15,7 +16,7 @@
       <div class="anime-list">
         <div v-for="anime in filteredAnimes" :key="anime.id" class="card">
           <div class="img">
-            <img :src="require(`@/assets/anim1.jpeg`)" alt="Anime Image" />
+            <img :src="require(`@/assets/${anime.image}`)" :alt="anime.title" />
           </div>
           <div class="textBox">
             <h1 class="h1">{{ anime.title }}</h1>
@@ -36,11 +37,13 @@
 
 <script>
 import TopAnime from '@/components/TopAnime.vue'
+import FeaturedAnimeCard from '@/components/FeaturedAnime.vue'
 
 export default {
   name: "AzPage",
   components: {
-    TopAnime
+    TopAnime,
+    FeaturedAnimeCard
   },
   data() {
     return {
