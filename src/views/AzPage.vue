@@ -19,10 +19,12 @@
             <img :src="require(`@/assets/${anime.image}`)" :alt="anime.title" />
           </div>
           <div class="textBox">
-            <h1 class="h1">{{ anime.title }}</h1>
+            <h2 class="title">{{ anime.title }}</h2>
+            <p class="date">{{ anime.year }}</p>
+            <p class="description">{{ anime.description }}</p>
             <div class="details">
-              <span class="year">{{ anime.year }}</span>
               <span class="episodes">{{ anime.episodes }}</span>
+              <span class="rating">{{ anime.rating }}</span>
             </div>
           </div>
         </div>
@@ -50,14 +52,33 @@ export default {
       alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
       selectedLetter: 'A',
       animes: [
-        { id: 1, title: "Drifting Home", year: 2022, episodes: "Ep Full", image: "anim1.jpeg" },
-        { id: 2, title: "Dimension High School", year: 2019, episodes: "Ep 12/12", image: "anim1.jpeg" },
-        { id: 3, title: "D-1 Devastator", year: 1992, episodes: "Ep 2/2", image: "anim1.jpeg" },
-        { id: 4, title: "D-Frag!", year: 2014, episodes: "Ep 12/12", image: "anim1.jpeg" },
-        { id: 5, title: "D-Frag!*", year: 2014, episodes: "Ep 1/1", image: "anim1.jpeg" },
-        { id: 6, title: "D.C.III: Da Capo III", year: 2013, episodes: "Ep 13/13", image: "anim1.jpeg" },
-        { id: 7, title: "D.Gray-man", year: 2006, episodes: "Ep 103/103", image: "anim1.jpeg" },
-        { id: 8, title: "D.Gray-man HALLOW", year: 2016, episodes: "Ep 13/13", image: "anim1.jpeg" },
+        { 
+          id: 1, 
+          title: "T1 E1 - Ryomen Sukuna", 
+          year: "1 de octubre de 2020", 
+          episodes: "24 min", 
+          image: "jujutsu_kaisen.jpg",
+          description: "Itadori Yuji is a high school student with exceptional physical abilities. On the night his grandfather dies he meets Fushiguro Megumi from Jujutsu High.",
+          rating: "18+"
+        },
+        { 
+          id: 2, 
+          title: "T1 E2 - For Myself", 
+          year: "8 de octubre de 2020", 
+          episodes: "24 min", 
+          image: "jujutsu_kaisen.jpg",
+          description: "Itadori wakes up in an unfamiliar room and before him rests Gojo Satoru, a teacher at Jujutsu High, who declares Itadori's secret execution has been decided upon.",
+          rating: "18+"
+        },
+        { 
+          id: 3, 
+          title: "T1 E3 - Girl of Steel", 
+          year: "15 de octubre de 2020", 
+          episodes: "24 min", 
+          image: "jujutsu_kaisen.jpg",
+          description: "Itadori, Fushiguro, and Gojo head out to meet up with the third first year, Kugizaki Nobara. Thereafter they head to an abandoned building where Gojo tasks Itadori and Kugizaki with exorcising the curses lurking inside.",
+          rating: "18+"
+        },
       ],
     };
   },
@@ -79,7 +100,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  background-color: #1a1a1a;
+  background-color: #0f0f0f;
   color: #ffffff;
   min-height: 100vh;
 }
@@ -94,7 +115,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 20px;
-  background-color: #2a2a2a;
+  background-color: #1a1a1a;
   padding: 10px;
   border-radius: 8px;
 }
@@ -121,12 +142,12 @@ export default {
   flex: 3;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
 .top-anime {
   flex: 1;
-  background-color: #2a2a2a;
+  background-color: #1a1a1a;
   padding: 20px;
   border-radius: 10px;
   min-width: 250px;
@@ -138,11 +159,11 @@ export default {
 
 .card {
   width: 100%;
-  background: #353535;
+  background: #1a1a1a;
   border-radius: 12px;
   display: flex;
-  align-items: center;
-  padding: 15px;
+  align-items: flex-start;
+  padding: 20px;
   transition: 0.3s ease-in-out;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
@@ -150,12 +171,12 @@ export default {
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-  background: #3a3a3a;
+  background: #252525;
 }
 
 .img {
-  width: 80px;
-  height: 120px;
+  width: 120px;
+  height: 180px;
   border-radius: 8px;
   overflow: hidden;
   flex-shrink: 0;
@@ -172,14 +193,26 @@ export default {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
-.h1 {
-  font-size: 20px;
+.title {
+  font-size: 24px;
   font-weight: bold;
   margin: 0 0 10px 0;
   color: #fff;
+}
+
+.date {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 16px;
+  color: #bbb;
+  margin-bottom: 15px;
+  line-height: 1.4;
 }
 
 .details {
@@ -189,8 +222,8 @@ export default {
   color: #bbb;
 }
 
-.year, .episodes {
-  background-color: #444;
+.episodes, .rating {
+  background-color: #333;
   padding: 4px 8px;
   border-radius: 4px;
 }
@@ -205,17 +238,18 @@ export default {
     position: static;
   }
 
+  .card {
+    flex-direction: column;
+  }
+
   .img {
-    width: 60px;
-    height: 90px;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 15px;
   }
 
-  .h1 {
-    font-size: 18px;
-  }
-
-  .details {
-    font-size: 12px;
+  .textBox {
+    margin-left: 0;
   }
 }
 </style>
