@@ -73,6 +73,7 @@ export default {
 }
 
 .card:hover .card__inner {
+  border: 5px solid rgba(128, 0, 128, 0.7);
   transform: rotateY(180deg);
 }
 
