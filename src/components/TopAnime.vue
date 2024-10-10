@@ -24,7 +24,7 @@ export default {
   name: 'TopAnime',
   data() {
     return {
-      selectedFilter: 'today', // Valor por defecto
+      selectedFilter: 'today',
       animes: [
         { id: 1, title: 'Anime 1', filter: 'today', image: anim1 },
         { id: 2, title: 'Anime 2', filter: 'today', image: anim2 },
@@ -45,7 +45,7 @@ export default {
     }
   },
   mounted() {
-    this.filterAnimes(); // Filtra los animes al cargar el componente
+    this.filterAnimes();
   }
 }
 </script>
@@ -55,10 +55,19 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h3 {
+  text-align: center;
+  color: #fff;
 }
 
 .filter-select {
-  width: 220px;
+  width: 100%;
+  max-width: 220px;
   height: 50px;
   background-color: rgba(36, 40, 50, 1);
   color: #fff;
@@ -66,46 +75,74 @@ export default {
   border-radius: 10px;
   padding: 0 20px;
   cursor: pointer;
-  appearance: none; /* Elimina el estilo predeterminado del select */
+  appearance: none;
   background-image: linear-gradient(to right, #2d3750, #2d3750), linear-gradient(to right, #435dd8, #435dd8);
   background-size: 100% 100%, 0 100%;
   background-position: center;
   background-repeat: no-repeat;
   transition: background-size 0.3s ease;
+  align-self: center;
 }
 
 .filter-select:hover {
-  background-size: 100% 100%, 100% 100%; /* Efecto de hover */
+  background-size: 100% 100%, 100% 100%;
 }
 
 .filter-select:focus {
-  outline: none; /* Elimina el contorno predeterminado */
-  border-color: #435dd8; /* Cambia el color del borde al enfocar */
+  outline: none;
+  border-color: #435dd8;
 }
 
 .anime-list {
   list-style-type: none;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
 }
 
 .anime-item {
   color: #fff;
   padding: 20px;
-  margin: 10px 0;
   border-radius: 10px;
   background-size: cover;
   background-position: center;
-  height: 100px; /* Ajusta la altura según sea necesario */
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  transition: transform 0.3s ease;
+}
+
+.anime-item:hover {
+  transform: scale(1.05);
 }
 
 .anime-title {
   position: relative;
-  z-index: 1; /* Asegura que el texto esté por encima de la imagen de fondo */
+  z-index: 1;
   font-size: 1.2rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Sombra para mejorar la legibilidad */
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .anime-list {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .anime-list {
+    grid-template-columns: 1fr;
+  }
+
+  .anime-item {
+    height: 120px;
+  }
 }
 </style>

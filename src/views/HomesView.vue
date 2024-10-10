@@ -153,7 +153,7 @@ export default {
 }
 
 .sidebar-open .home {
-  margin-left: 250px; /* Ancho del sidebar cuando está abierto */
+  margin-left: 250px;
 }
 
 .home {
@@ -174,7 +174,7 @@ export default {
 .section {
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  padding: 20px;
+  padding: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -188,8 +188,9 @@ export default {
 
 .content-and-filter-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
   gap: 20px;
+  width: 100%;
 }
 
 .anime-list-section {
@@ -209,22 +210,50 @@ export default {
   padding: 15px;
 }
 
-/* Estilos para el Sidebar */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 120px;
-  background-color: #222;
-  transition: width 0.3s ease;
+/* Media Queries para responsividad */
+@media (max-width: 1024px) {
+  .content-and-filter-container {
+    flex-direction: column;
+  }
+  
+  .filter-and-top-anime-container {
+    flex-direction: row;
+  }
+  
+  .filter-section, .top-anime-section {
+    flex: 1;
+  }
 }
 
-.sidebar.open {
-  width: 250px;
+@media (max-width: 768px) {
+  .home {
+    padding: 10px;
+  }
+  
+  .sidebar-open .home {
+    margin-left: 0;
+  }
+  
+  .filter-and-top-anime-container {
+    flex-direction: column;
+  }
+  
+  .section-title {
+    font-size: 1.2em;
+  }
 }
 
-.sidebar.close {
-  width: 70px;
+@media (max-width: 480px) {
+  .home {
+    padding: 5px;
+  }
+  
+  .section {
+    padding: 10px;
+  }
+  
+  .section-title {
+    font-size: 1em;
+  }
 }
 </style>

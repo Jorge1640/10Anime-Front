@@ -44,10 +44,10 @@ export default {
 <style scoped>
 .filter-section {
   flex: 1;
-  padding: 10px; /* Reducir el padding para hacerla más pequeña */
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  background-color: #333; /* Cambiar a un fondo gris oscuro */
+  background-color: #333;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
@@ -55,33 +55,33 @@ export default {
 .filter-container {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Reducir el espacio entre los grupos de filtros */
-  margin-bottom: 15px; /* Reducir el margen inferior */
+  gap: 15px;
+  margin-bottom: 15px;
 }
 
 .filter-group {
-  background-color: #444; /* Cambiar a un fondo gris más claro para los grupos de filtros */
-  padding: 10px; /* Reducir el padding interno */
+  background-color: #444;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid #555; /* Cambiar el color del borde a un gris más oscuro */
+  border: 1px solid #555;
 }
 
 .filter-group label {
   display: block;
-  margin-bottom: 6px; /* Reducir el margen inferior */
+  margin-bottom: 6px;
   font-weight: 600;
-  color: #fff; /* Cambiar el color del texto a blanco */
+  color: #fff;
   font-size: 14px;
 }
 
 .filter-group select {
   width: 100%;
-  padding: 8px; /* Reducir el padding interno */
+  padding: 8px;
   border-radius: 6px;
   border: 1px solid #ccc;
-  background-color: #555; /* Cambiar el fondo del select a un gris oscuro */
-  color: #fff; /* Cambiar el color del texto a blanco */
+  background-color: #555;
+  color: #fff;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
@@ -94,17 +94,17 @@ export default {
 .button-group {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px; /* Reducir el margen superior */
+  margin-top: 15px;
 }
 
 .search-btn, .reset-btn {
-  padding: 10px 20px; /* Reducir el padding de los botones */
+  padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   border: none;
   border-radius: 6px;
   transition: background-color 0.3s ease;
-  width: 45%; /* Ajustar el ancho de los botones para que se ajusten bien */
+  width: 45%;
   text-align: center;
 }
 
@@ -124,5 +124,33 @@ export default {
 
 .reset-btn:hover {
   background-color: #e53935;
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 768px) {
+  .filter-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .filter-group {
+    width: calc(50% - 7.5px);
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-group {
+    width: 100%;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-btn, .reset-btn {
+    width: 100%;
+  }
 }
 </style>
