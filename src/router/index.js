@@ -4,6 +4,7 @@ import HomesView from '@/views/HomesView.vue';
 import AzPage from '@/views/AzPage.vue';
 import AnimeListPage from '@/views/AnimeListPage.vue';
 import LoginPage from '../views/LoginPage.vue'; // Asegúrate de que la ruta sea correcta
+import TestView from '@/views/TestView.vue'; // Asegúrate de que la ruta sea correcta
 
 const routes = [
   {
@@ -27,6 +28,10 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: LoginPage
+  },  {
+    path: '/test',
+    name: 'test-view', // Cambiado a un nombre de ruta más descriptivo
+    component: TestView,
   },
   // Otras rutas...
 ];
