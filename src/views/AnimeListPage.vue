@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import FilterSection from '@/components/FilterSection.vue';
 import AnimeList from '@/components/AnimeList.vue';
 import SideBar from '@/components/SideBar.vue';
@@ -25,48 +26,16 @@ export default {
   data() {
     return {
       filters: [
-        { id: 'genre', label: 'Género', options: [
-          { value: 'action', text: 'Acción' },
-          { value: 'comedy', text: 'Comedia' },
-          { value: 'adventure', text: 'Aventura' }
-        ]},
-        { id: 'country', label: 'País', options: [
-          { value: 'japan', text: 'Japón' },
-          { value: 'korea', text: 'Corea' }
-        ]},
-        { id: 'season', label: 'Temporada', options: [
-          { value: 'spring', text: 'Primavera' },
-          { value: 'summer', text: 'Verano' },
-          { value: 'fall', text: 'Otoño' },
-          { value: 'winter', text: 'Invierno' }
-        ]},
-        { id: 'year', label: 'Año', options: [
-          { value: '2023', text: '2023' },
-          { value: '2022', text: '2022' }
-        ]},
-        { id: 'type', label: 'Tipo', options: [
-          { value: 'tv', text: 'TV' },
-          { value: 'movie', text: 'Película' },
-          { value: 'ova', text: 'OVA' }
-        ]},
-        { id: 'status', label: 'Estado', options: [
-          { value: 'airing', text: 'En emisión' },
-          { value: 'completed', text: 'Completado' }
-        ]},
-        { id: 'language', label: 'Idioma', options: [
-          { value: 'japanese', text: 'Japonés' },
-          { value: 'english', text: 'Inglés' }
-        ]},
-        { id: 'sort', label: 'Ordenar por', options: [
-          { value: 'popularity', text: 'Popularidad' },
-          { value: 'rating', text: 'Calificación' }
-        ]}
+        { id: 'genre', label: 'Género', options: [{ value: 'action', text: 'Acción' }, { value: 'comedy', text: 'Comedia' }, { value: 'adventure', text: 'Aventura' }] },
+        { id: 'country', label: 'País', options: [{ value: 'japan', text: 'Japón' }, { value: 'korea', text: 'Corea' }] },
+        { id: 'season', label: 'Temporada', options: [{ value: 'spring', text: 'Primavera' }, { value: 'summer', text: 'Verano' }, { value: 'fall', text: 'Otoño' }, { value: 'winter', text: 'Invierno' }] },
+        { id: 'year', label: 'Año', options: [{ value: '2023', text: '2023' }, { value: '2022', text: '2022' }] },
+        { id: 'type', label: 'Tipo', options: [{ value: 'tv', text: 'TV' }, { value: 'movie', text: 'Película' }, { value: 'ova', text: 'OVA' }] },
+        { id: 'status', label: 'Estado', options: [{ value: 'airing', text: 'En emisión' }, { value: 'completed', text: 'Completado' }] },
+        { id: 'language', label: 'Idioma', options: [{ value: 'japanese', text: 'Japonés' }, { value: 'english', text: 'Inglés' }] },
+        { id: 'sort', label: 'Ordenar por', options: [{ value: 'popularity', text: 'Popularidad' }, { value: 'rating', text: 'Calificación' }] }
       ],
-      allAnimes: [
-        { id: 1, title: "Naruto", image: "path-to-image-1.jpg", genre: "action", country: "japan", season: "spring", year: "2023", type: "tv", status: "airing", language: "japanese" },
-        { id: 2, title: "Bleach", image: "path-to-image-2.jpg", genre: "action", country: "japan", season: "summer", year: "2022", type: "tv", status: "completed", language: "japanese" },
-        { id: 3, title: "One Piece", image: "path-to-image-3.jpg", genre: "adventure", country: "japan", season: "fall", year: "2023", type: "tv", status: "airing", language: "japanese" }
-      ],
+      allAnimes: [], // Se iniciará como un array vacío
       selectedFilters: {} // Mantiene los filtros seleccionados
     };
   },
@@ -93,21 +62,21 @@ export default {
     resetFilters() {
       this.selectedFilters = {}; // Restablece los filtros
     },
-    applyFiltersAndRedirect(selectedFilters) {
-      this.applyFilters(selectedFilters);
-      this.$router.push({ 
-        name: 'AnimeListPage', 
-        query: Object.fromEntries(
-          Object.entries(this.selectedFilters).filter(([, v]) => v !== '') // Usar [, v] para ignorar la clave
-        )
-      });
-    },
     toggleSidebar() {
       // Implementa la lógica para mostrar/ocultar la barra lateral
+    },
+    fetchAnimes() {
+      axios.get('/api/animes')
+        .then(response => {
+          this.allAnimes = response.data; // Asigna la respuesta a allAnimes
+        })
+        .catch(error => {
+          console.error('Error fetching animes:', error); // Muestra un error si ocurre
+        });
     }
   },
   mounted() {
-    this.selectedFilters = {}; // Inicializa los filtros seleccionados
+    this.fetchAnimes(); // Llama a la función para obtener los datos de animes al montar el componente
   }
 }
 </script>

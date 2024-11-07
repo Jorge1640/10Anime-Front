@@ -19,33 +19,30 @@
 </template>
 
 <script>
-import anim1 from '@/assets/anim1.jpeg';
-import anim2 from '@/assets/anim2.jpeg';
-import anim3 from '@/assets/anim3.jpeg';
-import anim4 from '@/assets/anim4.jpeg';
+import animeService from '@/services/animeService';
 
 export default {
   name: 'AnimeList',
   data() {
     return {
-      animes: [
-        { id: 1, title: 'Anime 1', description: 'Descripción del Anime 1', releaseDate: '2021-01-01', image: anim1 },
-        { id: 2, title: 'Anime 2', description: 'Descripción del Anime 2', releaseDate: '2021-02-01', image: anim2 },
-        { id: 3, title: 'Anime 3', description: 'Descripción del Anime 3', releaseDate: '2021-03-01', image: anim3 },
-        { id: 4, title: 'Anime 4', description: 'Descripción del Anime 4', releaseDate: '2021-04-01', image: anim4 },
-        { id: 5, title: 'Anime 5', description: 'Descripción del Anime 5', releaseDate: '2021-05-01', image: anim1 },
-        { id: 6, title: 'Anime 6', description: 'Descripción del Anime 6', releaseDate: '2021-06-01', image: anim2 },
-        { id: 7, title: 'Anime 7', description: 'Descripción del Anime 7', releaseDate: '2021-07-01', image: anim3 },
-        { id: 8, title: 'Anime 8', description: 'Descripción del Anime 8', releaseDate: '2021-08-01', image: anim4 },
-        { id: 9, title: 'Anime 9', description: 'Descripción del Anime 9', releaseDate: '2021-09-01', image: anim1 },
-       
-      ]
+      animes: []
     };
   },
   methods: {
+    async fetchAnimes() {
+      try {
+        const response = await animeService.getAllAnimes();
+        this.animes = response.data;
+      } catch (error) {
+        console.error('Anime not found:', error);
+      }
+    },
     handleButtonClick(anime) {
       alert(`Reproduciendo ${anime.title}`);
     }
+  },
+  mounted() {
+    this.fetchAnimes();
   }
 }
 </script>
