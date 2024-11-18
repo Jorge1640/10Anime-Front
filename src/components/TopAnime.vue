@@ -3,8 +3,8 @@
     <h3>Filtrar Top Anime</h3>
     <select v-model="selectedFilter" class="filter-select" @change="filterAnimes">
       <option value="today">Today</option>
-      <option value="weekend">Weekend</option>
-      <option value="year">Year</option>
+      <option value="week">Week</option>
+      <option value="month">Month</option>
     </select>
     <ul class="anime-list">
       <li v-for="anime in filteredAnimes" :key="anime.id" class="anime-item" :style="{ backgroundImage: `url(${anime.image})` }">
@@ -15,39 +15,42 @@
 </template>
 
 <script>
-import anim1 from '@/assets/anim1.jpeg';
-import anim2 from '@/assets/anim2.jpeg';
-import anim3 from '@/assets/anim3.jpeg';
-import anim4 from '@/assets/anim4.jpeg';
+import animeService from '@/services/animeService';
 
 export default {
   name: 'TopAnime',
   data() {
     return {
-      selectedFilter: 'today',
-      animes: [
-        { id: 1, title: 'Anime 1', filter: 'today', image: anim1 },
-        { id: 2, title: 'Anime 2', filter: 'today', image: anim2 },
-        { id: 3, title: 'Anime 3', filter: 'today', image: anim3 },
-        { id: 4, title: 'Anime 4', filter: 'weekend', image: anim4 },
-        { id: 5, title: 'Anime 5', filter: 'weekend', image: anim1 },
-        { id: 6, title: 'Anime 6', filter: 'weekend', image: anim2 },
-        { id: 7, title: 'Anime 7', filter: 'year', image: anim3 },
-        { id: 8, title: 'Anime 8', filter: 'year', image: anim4 },
-        { id: 9, title: 'Anime 9', filter: 'year', image: anim1 },
-      ],
-      filteredAnimes: []
+      selectedFilter: 'today',  // Valor inicial del filtro
+      filteredAnimes: []        // Almacenará los animes obtenidos del backend
     };
   },
   methods: {
     filterAnimes() {
-      this.filteredAnimes = this.animes.filter(anime => anime.filter === this.selectedFilter);
+      // Selecciona el método del servicio según el filtro
+      let serviceMethod;
+      if (this.selectedFilter === 'today') {
+        serviceMethod = animeService.getTopToday;
+      } else if (this.selectedFilter === 'week') {
+        serviceMethod = animeService.getTopWeek;
+      } else if (this.selectedFilter === 'month') {
+        serviceMethod = animeService.getTopMonth;
+      }
+
+      // Llama al método del servicio y asigna los resultados a `filteredAnimes`
+      serviceMethod()
+        .then(response => {
+          this.filteredAnimes = response.data; // Asigna los datos obtenidos al array `filteredAnimes`
+        })
+        .catch(error => {
+          console.error("Error al obtener los animes:", error);
+        });
     }
   },
   mounted() {
-    this.filterAnimes();
+    this.filterAnimes(); // Cargar los animes al montarse el componente
   }
-}
+};
 </script>
 
 <style scoped>
