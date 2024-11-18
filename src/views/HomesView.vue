@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import CarrouseleComponent from '@/components/CarrouseleComponent.vue';
 import AnimeList from '@/components/AnimeList.vue';
 import TopAnime from '@/components/TopAnime.vue';
@@ -58,70 +59,40 @@ export default {
     return {
       isSidebarOpen: false,
       allAnimes: [
-        { id: 1, title: "Fullmetal Alchemist: Brotherhood", image: "path-to-image", genre: "Action, Adventure", country: "japan", season: "spring", year: "2023", type: "tv", status: "completed", language: "japanese" },
-        { id: 2, title: "Death Note", image: "path-to-image", genre: "Mystery, Supernatural", country: "japan", season: "fall", year: "2022", type: "tv", status: "completed", language: "japanese" },
-        { id: 3, title: "Steins;Gate", image: "path-to-image", genre: "Sci-Fi, Thriller", country: "japan", season: "summer", year: "2022", type: "tv", status: "completed", language: "japanese" },
-        { id: 4, title: "Hunter x Hunter", image: "path-to-image", genre: "Action, Adventure", country: "japan", season: "winter", year: "2023", type: "tv", status: "airing", language: "japanese" },
-        { id: 5, title: "Code Geass", image: "path-to-image", genre: "Mecha, Sci-Fi", country: "japan", season: "spring", year: "2022", type: "tv", status: "completed", language: "japanese" },
-        { id: 6, title: "Haikyuu!!", image: "path-to-image", genre: "Sports, Comedy", country: "japan", season: "fall", year: "2023", type: "tv", status: "airing", language: "japanese" },
-        { id: 7, title: "Neon Genesis Evangelion", image: "path-to-image", genre: "Mecha, Psychological", country: "japan", season: "summer", year: "2022", type: "tv", status: "completed", language: "japanese" },
-        { id: 8, title: "Your Lie in April", image: "path-to-image", genre: "Drama, Music", country: "japan", season: "spring", year: "2023", type: "tv", status: "completed", language: "japanese" },
-        { id: 9, title: "One Punch Man", image: "path-to-image", genre: "Action, Comedy", country: "japan", season: "fall", year: "2022", type: "tv", status: "completed", language: "japanese" },
-        { id: 10, title: "Cowboy Bebop", image: "path-to-image", genre: "Space Western, Sci-Fi", country: "japan", season: "winter", year: "2023", type: "tv", status: "completed", language: "japanese" }
+        // Lista de animes
       ],
       topAnime: [
-        { id: 1, title: "Fullmetal Alchemist: Brotherhood", image: "path-to-image", score: 9.2, filter: "today" },
-        { id: 2, title: "Death Note", image: "path-to-image", score: 9.0, filter: "today" },
-        { id: 3, title: "Attack on Titan", image: "path-to-image", score: 8.9, filter: "today" },
-        { id: 4, title: "One Punch Man", image: "path-to-image", score: 8.8, filter: "weekend" },
-        { id: 5, title: "My Hero Academia", image: "path-to-image", score: 8.7, filter: "weekend" },
-        { id: 6, title: "Demon Slayer", image: "path-to-image", score: 8.6, filter: "weekend" },
-        { id: 7, title: "Steins;Gate", image: "path-to-image", score: 9.1, filter: "year" },
-        { id: 8, title: "Code Geass", image: "path-to-image", score: 8.9, filter: "year" },
-        { id: 9, title: "Hunter x Hunter", image: "path-to-image", score: 9.1, filter: "year" },
-        { id: 10, title: "Haikyuu!!", image: "path-to-image", score: 8.7, filter: "year" }
+        // Lista de animes top
       ],
       filters: [
-        { id: 'genre', label: 'Género', options: [
-          { value: 'action', text: 'Acción' },
-          { value: 'comedy', text: 'Comedia' },
-        ]},
-        { id: 'country', label: 'País', options: [
-          { value: 'japan', text: 'Japón' },
-          { value: 'korea', text: 'Corea' },
-        ]},
-        { id: 'season', label: 'Temporada', options: [
-          { value: 'spring', text: 'Primavera' },
-          { value: 'summer', text: 'Verano' },
-          { value: 'fall', text: 'Otoño' },
-          { value: 'winter', text: 'Invierno' }
-        ]},
-        { id: 'year', label: 'Año', options: [
-          { value: '2023', text: '2023' },
-          { value: '2022', text: '2022' },
-        ]},
-        { id: 'type', label: 'Tipo', options: [
-          { value: 'tv', text: 'TV' },
-          { value: 'movie', text: 'Película' },
-          { value: 'ova', text: 'OVA' }
-        ]},
-        { id: 'status', label: 'Estado', options: [
-          { value: 'airing', text: 'En emisión' },
-          { value: 'completed', text: 'Completado' }
-        ]},
-        { id: 'language', label: 'Idioma', options: [
-          { value: 'japanese', text: 'Japonés' },
-          { value: 'english', text: 'Inglés' }
-        ]},
-        { id: 'sort', label: 'Ordenar por', options: [
-          { value: 'popularity', text: 'Popularidad' },
-          { value: 'rating', text: 'Calificación' }
-        ]}
+        // Opciones de filtros
       ],
       selectedFilters: {}
     };
   },
+  created() {
+    this.fetchToken();
+  },
   methods: {
+    async fetchToken() {
+      try {
+        // Realiza la solicitud al backend para obtener el token
+        const response = await axios.get('http://localhost:8080/api/v1/auth/token', {
+          withCredentials: true
+        });
+        const token = response.data.accessToken;
+
+        // Guarda el token en localStorage
+        localStorage.setItem('token', token);
+        console.log('Token JWT almacenado:', token);
+
+        // Redirige al usuario al dashboard o la página principal
+        this.$router.push('/'); // Ajusta el destino según tu estructura de rutas
+      } catch (error) {
+        console.error('Error al obtener el token:', error);
+        this.$router.push('/login'); // Redirige a login en caso de error
+      }
+    },
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
@@ -144,6 +115,7 @@ export default {
   }
 }
 </script>
+
 
 <style scoped>
 .home-container {
@@ -256,4 +228,5 @@ export default {
     font-size: 1em;
   }
 }
+
 </style>
